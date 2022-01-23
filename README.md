@@ -5,3 +5,4 @@ Eu baseei meus estudos na [série de videos sobre asp.net](https://www.youtube.c
 - [ ] Concluindo a Criação do Servidor HTTP
 - [ ] Implementando um Framework Web Simples
 - [ ] Entendendo o ASP.NET Core 5
+<p>(em andamento ...)</p>
