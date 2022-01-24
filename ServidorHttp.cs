@@ -144,12 +144,15 @@ class ServidorHttp
             this.DiretoriosHosts = new SortedList<string, string>();
             this.DiretoriosHosts.Add("localhost", "C:\\Users\\alvar\\OneDrive\\Documents\\workspace\\servidorhttpsimples\\www\\localhost");
             this.DiretoriosHosts.Add("maroquio.com", "C:\\Users\\alvar\\OneDrive\\Documents\\workspace\\servidorhttpsimples\\www\\maroquio.com");
-            this.DiretoriosHosts.Add("quitandaonline.com.br", "")
+            this.DiretoriosHosts.Add("dogefoods.herokuapp.com", "C:\\Users\\alvar\\OneDrive\\Documents\\workspace\\doge-foods");
         }
+        
         public string ObterCaminhoFisicoArquivo(string host, string arquivo)
         {
             string diretorio = this.DiretoriosHosts[host.Split(":")[0]];
             string caminhoArquivo = diretorio + arquivo.Replace("/", "\\");
             return caminhoArquivo;
         }
+    
+        
     }
