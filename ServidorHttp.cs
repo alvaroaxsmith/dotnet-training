@@ -162,32 +162,22 @@ class ServidorHttp
             return caminhoArquivo;
         }
     
-        public byte[] GerarHTMLDinamico(string caminhoArquivo, SortedList<string, string> parametros)
+        public byte[] GerarHTMLDinamico(string caminhoArquivo, SortedList<string, string> parametros, string metodoHttp)
         {
-            string coringa = "{{HtmlGerado}}";
-            string htmlModelo = File.ReadAllText(caminhoArquivo);
-            StringBuilder htmlGerado = new StringBuilder();
-            // htmlGerado.Append("<ul>");
-            // foreach (var tipo in this.TiposMime.Keys)
-            // {
-            //     htmlGerado.Append($"<li>Arquivos com extensão {tipo}</li>");
-            // }
-            // htmlGerado.Append("</ul>");
-            if (parametros.Count > 0)
+            FileInfo fiArquivo = new FileInfo(caminhoArquivo);
+            string nomeClassePagina = "Pagina" + fiArquivo.Name.Replace(fiArquivo.Extension, "");
+            Type tipoPaginaDinamica = Type.GetType(nomeClassePagina, true, true);
+            PaginaDinamica pd = Activator.CreateInstance(tipoPaginaDinamica) as PaginaDinamica;
+            pd.HtmlModelo = File.ReadAllText(caminhoArquivo);
+            switch (metodoHttp.ToLower())
             {
-            htmlGerado.Append("<ul>");
-            foreach (var p in parametros)
-            {
-                htmlGerado.Append($"<li>{p.Key}={p.Value}</li>");
+                case "get":
+                    return pd.Get(parametros);
+                case "post":
+                    return pd.Post(parametros);
+                default:
+                    return new byte[0];
             }
-            htmlGerado.Append("</ul>");
-            }
-            else
-            {
-                htmlGerado.Append("<p>Nenhum parâmetro foi passado.</p>");
-            }
-            string textoHtmlGerado = htmlModelo.Replace(coringa, htmlGerado.ToString());
-            return Encoding.UTF8.GetBytes(textoHtmlGerado, 0, textoHtmlGerado.Length);
         }
 
         private SortedList<string, string> ProcessarParametros(string textoParametros)
