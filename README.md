@@ -2,7 +2,7 @@
 #### Estudando e construindo API's
 
 - [x] Criando um Servidor HTTP na Unha!
-- [ ] Concluindo a Criação do Servidor HTTP
+- [x] Concluindo a Criação do Servidor HTTP
 - [ ] Implementando um Framework Web Simples
 - [ ] Entendendo o ASP.NET Core 5
 
