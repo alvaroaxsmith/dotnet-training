@@ -4,6 +4,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 
 class ServidorHttp
 {
@@ -54,8 +55,7 @@ class ServidorHttp
         {
             byte[] bytesRequisicao = new byte[1024];
             conexao.Receive(bytesRequisicao, bytesRequisicao.Length, 0);
-            string textoRequisicao = Encoding.UTF8.GetString(bytesRequisicao)
-                .Replace((char)0, ' ').Trim();
+            string textoRequisicao = Encoding.UTF8.GetString(bytesRequisicao).Replace((char)0, ' ').Trim();
             if (textoRequisicao.Length > 0)
             {
                 Console.WriteLine($"\n{textoRequisicao}\n");
@@ -68,6 +68,16 @@ class ServidorHttp
                 if (recursoBuscado == "/") recursoBuscado = "/index.html";
                 string textoParametros = recursoBuscado.Contains("?") ? recursoBuscado.Split("?")[1] : "";
                 SortedList<string, string> parametros = ProcessarParametros(textoParametros);
+                string dadosPost = textoRequisicao.Contains("\r\n\r\n") ? textoRequisicao.Split("\r\n\r\n")[1] : "";
+                if (!string.IsNullOrEmpty(dadosPost))
+                {
+                    dadosPost = HttpUtility.UrlDecode(dadosPost, Encoding.UTF8);
+                    var parametrosPost = ProcessarParametros(dadosPost);
+                    foreach (var pp in parametrosPost)
+                    {
+                        parametros.Add(pp.Key, pp.Value);
+                    }
+                }
                 recursoBuscado = recursoBuscado.Split("?")[0];
                 string versaoHttp = linhas[0].Substring(iSegundoEspaco + 1);
                 iPrimeiroEspaco = linhas[1].IndexOf(' ');
