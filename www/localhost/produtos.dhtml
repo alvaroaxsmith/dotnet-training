@@ -11,6 +11,8 @@
 <body>
     <h1>Listagem de Produtos</h1>
     <hr>
+    <a href="cadastroproduto.dhtml">Cadastrar Novo Produto</a>
+    <hr>
     <table id="tabela">
         <tr>
             <td>Código</td>
